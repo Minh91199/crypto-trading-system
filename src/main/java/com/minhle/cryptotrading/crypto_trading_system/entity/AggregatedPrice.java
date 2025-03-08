@@ -32,6 +32,6 @@ public class AggregatedPrice {
     @Column(name = "ask_price", nullable = false, precision = 18, scale = 8)
     private BigDecimal askPrice;
 
-    @Column(name = "last_updated", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime lastUpdated = LocalDateTime.now();
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
 }

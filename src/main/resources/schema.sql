@@ -22,7 +22,7 @@ CREATE TABLE aggregated_price (
     symbol       VARCHAR(10) NOT NULL,    -- ETHUSDT, BTCUSDT
     bid_price    DECIMAL(18, 8) NOT NULL,   -- For SELL orders
     ask_price    DECIMAL(18, 8) NOT NULL,   -- For BUY orders
-    last_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Trading Transactions Table
