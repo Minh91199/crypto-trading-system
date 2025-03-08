@@ -1,6 +1,8 @@
 package com.minhle.cryptotrading.crypto_trading_system.service;
 
 import com.minhle.cryptotrading.crypto_trading_system.entity.AggregatedPrice;
+import com.minhle.cryptotrading.crypto_trading_system.mapper.LatestAggregatedPriceMapper;
+import com.minhle.cryptotrading.crypto_trading_system.model.response.LatestAggregatedPrice;
 import org.springframework.beans.factory.annotation.Value;
 import com.minhle.cryptotrading.crypto_trading_system.provider.BinancePriceProvider;
 import com.minhle.cryptotrading.crypto_trading_system.provider.HuobiPriceProvider;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +27,7 @@ public class PriceAggregationServiceImpl implements PriceAggregationService {
     private final List<PriceProvider> priceProviders;
     private final BinancePriceProvider binancePriceProvider;
     private final HuobiPriceProvider huobiPriceProvider;
+    private final LatestAggregatedPriceMapper latestAggregatedPriceMapper;
 
     @Value("#{'${crypto-trading-system.config.trading.supported-symbols}'.split(',')}")
     private List<String> supportedSymbols;
@@ -42,6 +46,19 @@ public class PriceAggregationServiceImpl implements PriceAggregationService {
                     .build();
             aggregatedPriceRepository.save(aggregatedPrice);
         });
+    }
+
+    @Override
+    public List<LatestAggregatedPrice> getLatestAggregatedPrices() {
+        List<LatestAggregatedPrice> response = new ArrayList<>();
+        for (String symbol : supportedSymbols) {
+            Optional<AggregatedPrice> opt = aggregatedPriceRepository.findTopBySymbolOrderByCreatedAtDesc(symbol);
+            opt.ifPresent(ap -> {
+                LatestAggregatedPrice dto = latestAggregatedPriceMapper.toLatestAggregatedPrice(ap);
+                response.add(dto);
+            });
+        }
+        return response;
     }
 
     private void fetchPrices() {
