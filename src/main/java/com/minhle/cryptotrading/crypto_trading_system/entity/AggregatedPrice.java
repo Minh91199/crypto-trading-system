@@ -21,7 +21,7 @@ public class AggregatedPrice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "symbol", nullable = false, length = 10)
     private String symbol;

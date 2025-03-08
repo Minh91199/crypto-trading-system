@@ -22,7 +22,7 @@ public class TradeTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -43,11 +43,5 @@ public class TradeTransaction {
 
     @Column(name = "trade_time", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime tradeTime = LocalDateTime.now();
-
-    @Column(name = "wallet_before", precision = 18, scale = 8)
-    private BigDecimal walletBefore;
-
-    @Column(name = "wallet_after", precision = 18, scale = 8)
-    private BigDecimal walletAfter;
 }
 

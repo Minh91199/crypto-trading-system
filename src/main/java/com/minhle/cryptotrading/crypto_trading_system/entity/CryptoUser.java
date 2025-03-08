@@ -20,7 +20,7 @@ public class CryptoUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "username", nullable = false, unique = true, length = 255)
     private String username;
