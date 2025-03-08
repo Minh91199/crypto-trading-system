@@ -44,7 +44,7 @@ public class TradeServiceImpl implements TradeService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Symbol " + symbol + " is not supported");
         }
 
-        CryptoUser user = cryptoUserRepository.findById(tradeRequest.getUserId())
+        CryptoUser user = cryptoUserRepository.findById(1L)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
 
         // USDT wallet is the base currency.
