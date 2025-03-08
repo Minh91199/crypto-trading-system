@@ -6,6 +6,7 @@ import com.minhle.cryptotrading.crypto_trading_system.entity.TradeTransaction;
 import com.minhle.cryptotrading.crypto_trading_system.entity.Wallet;
 import com.minhle.cryptotrading.crypto_trading_system.enums.TradeType;
 import com.minhle.cryptotrading.crypto_trading_system.model.request.TradeRequest;
+import com.minhle.cryptotrading.crypto_trading_system.model.response.TradeHistoryResponse;
 import com.minhle.cryptotrading.crypto_trading_system.model.response.TradeResponse;
 import com.minhle.cryptotrading.crypto_trading_system.repository.AggregatedPriceRepository;
 import com.minhle.cryptotrading.crypto_trading_system.repository.CryptoUserRepository;
@@ -21,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -124,6 +126,25 @@ public class TradeServiceImpl implements TradeService {
                 .tradeTime(savedTransaction.getTradeTime())
                 .message("Trade executed successfully")
                 .build();
+    }
+
+    @Override
+    public List<TradeHistoryResponse> getTradeHistory(Long userId) {
+        CryptoUser user = cryptoUserRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
+
+        List<TradeTransaction> transactions = tradeTransactionRepository.findByUser(user);
+
+        return transactions.stream()
+                .map(tx -> TradeHistoryResponse.builder()
+                        .tradeId(tx.getId())
+                        .symbol(tx.getSymbol())
+                        .tradeType(tx.getTradeType().toString())
+                        .tradePrice(tx.getTradePrice())
+                        .quantity(tx.getQuantity())
+                        .tradeTime(tx.getTradeTime())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private TradeType parseOrderType(String orderTypeStr) {
