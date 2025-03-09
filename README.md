@@ -111,5 +111,5 @@ com.minhle.cryptotrading.crypto_trading_system
 
 ---
 
-### **Contact*
+### *Contact*
 - Email: lehuynhnhatminh999@gmail.com
