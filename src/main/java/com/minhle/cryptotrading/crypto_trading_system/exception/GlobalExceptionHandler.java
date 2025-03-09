@@ -11,23 +11,23 @@ import org.springframework.web.server.ResponseStatusException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ErrorResponse> handleResponseStatusException(ResponseStatusException ex) {
-        ErrorResponse error = new ErrorResponse(ex.getStatusCode().value(), ex.getReason());
-        return new ResponseEntity<>(error, ex.getStatusCode());
-    }
+  @ExceptionHandler(ResponseStatusException.class)
+  public ResponseEntity<ErrorResponse> handleResponseStatusException(ResponseStatusException ex) {
+    ErrorResponse error = new ErrorResponse(ex.getStatusCode().value(), ex.getReason());
+    return new ResponseEntity<>(error, ex.getStatusCode());
+  }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error");
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+    ErrorResponse error =
+        new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error");
+    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
 
-    @Data
-    @AllArgsConstructor
-    static class ErrorResponse {
-        private int status;
-        private String message;
-    }
+  @Data
+  @AllArgsConstructor
+  static class ErrorResponse {
+    private int status;
+    private String message;
+  }
 }
-

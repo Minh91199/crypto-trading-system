@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(name = "huobiFeignClient")
 public interface HuobiClient {
-    @GetMapping("/market/tickers")
-    HuobiResponse getTickers();
+  @GetMapping("/market/tickers")
+  HuobiResponse getTickers();
 }
-

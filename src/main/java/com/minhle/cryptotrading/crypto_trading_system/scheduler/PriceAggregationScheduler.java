@@ -9,12 +9,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PriceAggregationScheduler {
 
-    private final PriceAggregationService priceAggregationService;
+  private final PriceAggregationService priceAggregationService;
 
-    @Scheduled(fixedDelayString = "${crypto-trading-system.config.scheduler.price-aggregation-interval}")
-    public void updatePrices() {
-        priceAggregationService.syncPrices();
-    }
+  @Scheduled(
+      fixedDelayString = "${crypto-trading-system.config.scheduler.price-aggregation-interval}")
+  public void updatePrices() {
+    priceAggregationService.syncPrices();
+  }
 }
-
-

@@ -1,8 +1,7 @@
 package com.minhle.cryptotrading.crypto_trading_system.model.response;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
+import lombok.Data;
 
 @Data
 public class LatestAggregatedPrice {
