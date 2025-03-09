@@ -16,7 +16,8 @@ public class BinancePriceProvider implements PriceProvider {
     private final BinanceClient binanceClient;
     private List<BinanceTicker> cachedTickers;
 
-    public void refreshTickers() {
+    @Override
+    public void fetchPrice() {
         cachedTickers = binanceClient.getTickers();
     }
 

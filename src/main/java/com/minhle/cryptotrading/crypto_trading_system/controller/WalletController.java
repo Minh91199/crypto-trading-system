@@ -14,9 +14,8 @@ public class WalletController {
     private final WalletService walletService;
 
     @GetMapping("/balance")
-    public ResponseEntity<List<WalletBalanceResponse>> getWalletBalances(
-            @RequestParam(value = "userId", defaultValue = "1") Long userId) {
-        List<WalletBalanceResponse> response = walletService.getWalletBalances(userId);
+    public ResponseEntity<List<WalletBalanceResponse>> getWalletBalances() {
+        List<WalletBalanceResponse> response = walletService.getWalletBalances(1L);
         return ResponseEntity.ok(response);
     }
 }

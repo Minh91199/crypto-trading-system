@@ -4,8 +4,6 @@ import com.minhle.cryptotrading.crypto_trading_system.entity.AggregatedPrice;
 import com.minhle.cryptotrading.crypto_trading_system.mapper.LatestAggregatedPriceMapper;
 import com.minhle.cryptotrading.crypto_trading_system.model.response.LatestAggregatedPrice;
 import org.springframework.beans.factory.annotation.Value;
-import com.minhle.cryptotrading.crypto_trading_system.provider.BinancePriceProvider;
-import com.minhle.cryptotrading.crypto_trading_system.provider.HuobiPriceProvider;
 import com.minhle.cryptotrading.crypto_trading_system.provider.PriceProvider;
 import com.minhle.cryptotrading.crypto_trading_system.repository.AggregatedPriceRepository;
 import lombok.AllArgsConstructor;
@@ -25,8 +23,6 @@ public class PriceAggregationServiceImpl implements PriceAggregationService {
 
     private final AggregatedPriceRepository aggregatedPriceRepository;
     private final List<PriceProvider> priceProviders;
-    private final BinancePriceProvider binancePriceProvider;
-    private final HuobiPriceProvider huobiPriceProvider;
     private final LatestAggregatedPriceMapper latestAggregatedPriceMapper;
 
     @Value("#{'${crypto-trading-system.config.trading.supported-symbols}'.split(',')}")
@@ -62,9 +58,11 @@ public class PriceAggregationServiceImpl implements PriceAggregationService {
     }
 
     private void fetchPrices() {
-        binancePriceProvider.refreshTickers();
-        huobiPriceProvider.refreshTickers();
+        for (PriceProvider provider : priceProviders) {
+            provider.fetchPrice();
+        }
     }
+
 
     private BestPrice calculateBestPrice(String symbol) {
         Optional<BigDecimal> maxBid = priceProviders.stream()

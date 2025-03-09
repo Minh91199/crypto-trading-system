@@ -17,7 +17,8 @@ public class HuobiPriceProvider implements PriceProvider {
     private final HuobiClient huobiClient;
     private List<HuobiTicker> cachedTickers;
 
-    public void refreshTickers() {
+    @Override
+    public void fetchPrice() {
         HuobiResponse response = huobiClient.getTickers();
         cachedTickers = response.getData();
     }

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TradeTransactionRepository extends JpaRepository<TradeTransaction, Long> {
-    List<TradeTransaction> findByUser(CryptoUser user);
+    List<TradeTransaction> findByUserOrderByTradeTimeDesc(CryptoUser user);
 }
 
